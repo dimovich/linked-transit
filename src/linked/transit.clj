@@ -2,8 +2,10 @@
   (:require [cognitect.transit :as t]
             [linked.set]
             [linked.map])
+  
   (:import [linked.set LinkedSet]
-           [linked.map LinkedMap]))
+           [linked.map LinkedMap]
+           [java.io ByteArrayInputStream ByteArrayOutputStream]))
 
 
 
@@ -18,5 +20,27 @@
    LinkedMap (t/write-handler "linked/map" (partial into []))})
 
 
-;;PersistentSortedSet (get t/default-write-handlers java.util.List)
+;;PersistentSortedSet 
 
+
+
+(defn read-transit [is]
+  (t/read (t/reader is :json { :handlers read-handlers })))
+
+
+(defn read-transit-str [^String s]
+  (read-transit (ByteArrayInputStream. (.getBytes s "UTF-8"))))
+
+
+(defn write-transit [o os]
+  (t/write (t/writer os :json { :handlers write-handlers }) o))
+
+
+(defn write-transit-bytes ^bytes [o]
+  (let [os (ByteArrayOutputStream.)]
+    (write-transit o os)
+    (.toByteArray os)))
+    
+
+(defn write-transit-str [o]
+  (String. (write-transit-bytes o) "UTF-8"))

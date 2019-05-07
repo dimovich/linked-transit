@@ -6,8 +6,8 @@
 
 
 (def read-handlers
-  {"linked/set" (fn [s] (linked.set/->linked-set s))
-   "linked/map" (fn [m] (linked.map/->linked-map m))})
+  {"linked/set" (fn [_] (linked.set/->linked-set _))
+   "linked/map" (fn [_] (linked.map/->linked-map _))})
 
 
 

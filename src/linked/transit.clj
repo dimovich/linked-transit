@@ -20,8 +20,6 @@
    LinkedMap (t/write-handler "linked/map" (partial into []))})
 
 
-;;PersistentSortedSet 
-
 
 
 (defn read-transit [is]
